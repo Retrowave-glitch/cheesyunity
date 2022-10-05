@@ -7,10 +7,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float moveSpeed = 5f;
+    public float moveSpeed = 1.0f;
 
     public Rigidbody2D rb;
 
+    private bool bMovable = true;
     Vector2 movement;
 
     //// Start is called before the first frame update
@@ -20,14 +21,19 @@ public class PlayerMovement : MonoBehaviour
     //}
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        if (bMovable)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            movement.Normalize();
+            if (Input.GetButton("Sprint")) movement *= 1.5f;
+        }
     }
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed / 10);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
     }
 }

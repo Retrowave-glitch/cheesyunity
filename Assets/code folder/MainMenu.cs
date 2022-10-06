@@ -10,13 +10,15 @@ public class MainMenu : MonoBehaviour
 {
     public void HostGame()
     {
+        GameManager.Instance.SetNetworkType(NetworkType.Host);
         PlayGame();
     }
     public void JoinGame()
     {
+        GameManager.Instance.SetNetworkType(NetworkType.Client);
         PlayGame();
     }
-    public void PlayGame()
+    private void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //loads the next scene (aka the main game)
     }

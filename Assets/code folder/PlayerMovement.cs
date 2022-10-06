@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using Unity.Netcode;
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 
     public float moveSpeed = 1.0f;
@@ -13,18 +8,6 @@ public class PlayerMovement : NetworkBehaviour
 
     private bool bMovable = true;
     Vector2 movement;
-
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-
-    //}
-    /*    
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner) Destroy(this);
-    }
-    */
     private void Update()
     {
         if (bMovable)

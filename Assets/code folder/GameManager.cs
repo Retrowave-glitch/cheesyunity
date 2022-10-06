@@ -1,27 +1,81 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 public class GameManager : MonoBehaviour
 {
-    public Object Cheese;
-    bool isStart = false;
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager Instance;
+    public GameState state;
+    public NetworkType NetType;
+    [SerializeField] UnityEvent<GameState> OnGameStateChanged;
+    public string ipaddress;
+    public int port;
+    void Awake()
     {
-        
+        CheckInstance();
+        DontDestroyOnLoad(gameObject);
     }
-    void StartGame()
+    void CheckInstance()
     {
-        if (!isStart)
+        if(Instance == null)
         {
-            isStart = true;
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        UpdateGameState(GameState.SelectGamemode);
     }
+    public void UpdateGameState(GameState newState)
+    {
+        state = newState;
+        switch (newState)
+        {
+            case GameState.SelectGamemode:
+                break;
+            case GameState.WaitingPlayer:
+                break;
+            case GameState.Prepare:
+                break;
+            case GameState.Playing:
+                break;
+            case GameState.Result:
+                break;
+            case GameState.Connecting:
+                break;
+            default:
+                break;
+        }
+        OnGameStateChanged?.Invoke (newState);
+    }
+    public void SetNetworkType(NetworkType _NetType)
+    {
+        NetType = _NetType;
+    }
+    public NetworkType GetNetworkType()
+    {
+        return NetType;
+    }
+}
+public enum GameState
+{
+    SelectGamemode,
+    WaitingPlayer,
+    Prepare,
+    Playing,
+    Result,
+    Connecting
+}
+public enum NetworkType
+{
+    Host,
+    Server,
+    Client
 }

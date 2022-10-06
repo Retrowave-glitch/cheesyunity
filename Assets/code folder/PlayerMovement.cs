@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
-public class PlayerMovement : MonoBehaviour
+using Unity.Netcode;
+public class PlayerMovement : NetworkBehaviour
 {
 
     public float moveSpeed = 1.0f;
@@ -19,8 +19,12 @@ public class PlayerMovement : MonoBehaviour
     //{
 
     //}
-
-    // Update is called once per frame
+    /*    
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) Destroy(this);
+    }
+    */
     private void Update()
     {
         if (bMovable)
@@ -29,11 +33,7 @@ public class PlayerMovement : MonoBehaviour
             movement.y = Input.GetAxisRaw("Vertical");
             movement.Normalize();
             if (Input.GetButton("Sprint")) movement *= 1.5f;
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
         }
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
     }
 }

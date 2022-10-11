@@ -4,8 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState state;
+    public string PlayerName;
     public NetworkType NetType;
-    [SerializeField] UnityEvent<GameState> OnGameStateChanged;
+    [SerializeField] UnityEvent<GameState> OnGameStateChanged; // invoke method can not used though scenes
     public string ipaddress;
     public int port;
     void Awake()

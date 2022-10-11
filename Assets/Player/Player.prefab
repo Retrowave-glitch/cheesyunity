@@ -47,7 +47,6 @@ GameObject:
   - component: {fileID: 8419578296140474360}
   - component: {fileID: 2287142604201144229}
   - component: {fileID: 8419578295339307940}
-  - component: {fileID: 5187345007473708121}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -208,8 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0466e5f68c7ce4fb77f41fb91cd94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerManagerpointer: {fileID: 5187345007473708121}
-  CameraManagerpointer: {fileID: 0}
+  NetworkID: 
+  objectGenerator: {fileID: 0}
 --- !u!114 &8419578295339307940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,15 +225,3 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5187345007473708121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8419578296140474358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ebf57e88abce6b499c673d43032efce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

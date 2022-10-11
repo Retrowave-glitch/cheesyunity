@@ -16,6 +16,8 @@ public class MainMenu : MonoBehaviour
     public void JoinGame()
     {
         GameManager.Instance.SetNetworkType(NetworkType.Client);
+        GameManager.Instance.ipaddress = "127.0.0.1";
+        GameManager.Instance.port = 7777;
         PlayGame();
     }
     private void PlayGame()

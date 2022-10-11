@@ -1217,6 +1217,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   NetType: 0
+  OnGameStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
   ipaddress: 
   port: 0
 --- !u!4 &1919200004

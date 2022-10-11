@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyFollow : MonoBehaviour
 {
-    public GameObject player;
+    public Transform player;
 
     public float speed;
     private float distance;
@@ -16,9 +16,9 @@ public class EnemyFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
+        distance = Vector2.Distance(transform.position, player.position);
+        Vector2 direction = player.position - transform.position;
 
-        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
-        }
+        transform.position = Vector2.MoveTowards(this.transform.position, player.position, speed * Time.deltaTime);
+    }
 }

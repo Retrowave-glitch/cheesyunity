@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Collections;
+using UnityEngine.UI;
+using System;
+
 public class PlayerNetwork : NetworkBehaviour
 {
-    public string NetworkID;
-    public string PlayerName;
+    public String PlayerName;
     private readonly NetworkVariable<Vector3> _netPos = new NetworkVariable<Vector3>(writePerm: NetworkVariableWritePermission.Owner);
     private readonly NetworkVariable<Quaternion> _netRot = new NetworkVariable<Quaternion>(writePerm: NetworkVariableWritePermission.Owner);
+    private readonly NetworkVariable<Unity.Collections.FixedString64Bytes> _netName = new NetworkVariable<Unity.Collections.FixedString64Bytes>(writePerm: NetworkVariableWritePermission.Owner);
     public override void OnNetworkSpawn() //When Player Spawned by network
     {
         if (IsOwner)
@@ -17,10 +21,12 @@ public class PlayerNetwork : NetworkBehaviour
             Camera camera = Camera.main;
             camera.GetComponent<CameraManager>().target = this.transform;
             camera.GetComponent<CameraManager>().ChangeCamera(Cameras.PlayerCamera);
+            SetPlayerNameServer(PlayerName);
         }
         if (IsServer)
         {
             GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
+            //if one more player login
             if (gos.Length > 0)
             {
                 GameObject objectgenerator = GameObject.FindGameObjectWithTag("ObjectGenerator");
@@ -29,6 +35,24 @@ public class PlayerNetwork : NetworkBehaviour
             }
         }
     }
+    private void SetPlayerNameServer(string playerName)
+    {
+        _netName.Value = playerName;
+    }
+    private void Start()
+    {
+
+        _netName.OnValueChanged += OnChangePlayerName;
+        //PlayerName = _netName.Value;
+        PlayerName = _netName.Value.ToString();
+    }
+
+    private void OnChangePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
+    {
+        // PlayerName = _netName.Value;
+        PlayerName = _netName.Value.ToString();
+    }
+
     private void Update()
     {
         if (IsOwner)

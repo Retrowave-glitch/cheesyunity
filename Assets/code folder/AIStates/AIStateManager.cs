@@ -10,10 +10,11 @@ public class AIStateManager : MonoBehaviour
     public float speed = 2.0f;
     public Transform Enemy;
     public IdleState idleState;
+    public AIType AItype = AIType.Seek;
 
-    public List<Transform> targets = null;
+    public List<GameObject> targets = null;
     public Collider2D[] obstacles = null;
-    public Transform currentTarget;
+    public GameObject currentTarget;
     public int GetTargetsCount() => targets == null ? 0 : targets.Count;
 
     [SerializeField]
@@ -41,6 +42,11 @@ public class AIStateManager : MonoBehaviour
     {
         currentState = nextState;
         currentState.AIStateManagerpointer = this;
-        //Debug.Log(currentState);
+    }
+    public enum AIType
+    {
+        Seek,
+        Pursue,
+        Flee
     }
 }

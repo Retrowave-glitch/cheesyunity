@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44706c966bd8324e9c2351f33bdd3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AIStateManagerpointer: {fileID: 0}
 --- !u!1 &3491973595308024666
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +224,53 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!1 &5873999705765948683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3420212012436812014}
+  - component: {fileID: 528266398645203279}
+  m_Layer: 7
+  m_Name: Flee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3420212012436812014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5873999705765948683}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2907324531729666479}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &528266398645203279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5873999705765948683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720219dbc53d18748978f627bf26ed6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AIStateManagerpointer: {fileID: 0}
+  attackState: {fileID: 2939057449014107683}
+  isInAttackRange: 0
 --- !u!1 &6130288799951724331
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +301,8 @@ Transform:
   m_Children:
   - {fileID: 6676588393263444997}
   - {fileID: 5516098966964305136}
+  - {fileID: 3420212012436812014}
+  - {fileID: 812461168045747273}
   - {fileID: 8471789436142464263}
   m_Father: {fileID: 3491973595308024668}
   m_RootOrder: -1
@@ -307,6 +357,7 @@ MonoBehaviour:
   speed: 2
   Enemy: {fileID: 3491973595308024668}
   idleState: {fileID: 5013449502802237554}
+  AItype: 2
   targets: []
   obstacles: []
   currentTarget: {fileID: 0}
@@ -316,6 +367,53 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!1 &7165166254069887651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 812461168045747273}
+  - component: {fileID: 2718772316378241934}
+  m_Layer: 7
+  m_Name: Pursue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &812461168045747273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165166254069887651}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2907324531729666479}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2718772316378241934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165166254069887651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cde246aa134fee409064e44a56a2562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AIStateManagerpointer: {fileID: 0}
+  attackState: {fileID: 2939057449014107683}
+  isInAttackRange: 0
 --- !u!1 &7467903010527695628
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +458,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4c29ddab12e304dbb3dfe2129fefee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AIStateManagerpointer: {fileID: 0}
   chaseState: {fileID: 4312483783673995811}
+  fleeState: {fileID: 528266398645203279}
+  pursueState: {fileID: 2718772316378241934}
 --- !u!1 &8125089481297170200
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,5 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf6007b0a38b6a45855609520896347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AIStateManagerpointer: {fileID: 0}
   attackState: {fileID: 2939057449014107683}
   isInAttackRange: 0

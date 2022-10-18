@@ -5,12 +5,29 @@ using UnityEngine;
 public class IdleState : AIState
 {
     public ChaseState chaseState;
-
+    public FleeState fleeState;
+    public PursueState pursueState;
     public override AIState RunCurrentState()
     {
+        AIState nextState;
         if (canSeeThePlayer())
         {
-            return chaseState;
+            switch (AIStateManagerpointer.AItype)
+            {
+                case AIStateManager.AIType.Seek:
+                    nextState = chaseState;
+                    break;
+                case AIStateManager.AIType.Pursue:
+                    nextState = pursueState;
+                    break;
+                case AIStateManager.AIType.Flee:
+                    nextState = fleeState;
+                    break;
+                default:
+                    nextState = chaseState;
+                    break;
+            }
+            return nextState;
         }
         else
         {
@@ -19,7 +36,7 @@ public class IdleState : AIState
     }
     public bool canSeeThePlayer()
     {
-        List<Transform> colliders;
+        List<GameObject> colliders;
         bool bfindPlayer = false;
         float targetDetectionRange = AIStateManagerpointer.detectingRange;
         LayerMask playerLayerMask = AIStateManagerpointer.playerLayerMask;
@@ -33,8 +50,7 @@ public class IdleState : AIState
             //check if there are obstacles
             if (hit.collider == null) 
             {
-                Debug.DrawRay(transform.position, direction * targetDetectionRange, Color.magenta);
-                colliders = new List<Transform>() { playerCollider.transform };
+                colliders = new List<GameObject>() { playerCollider.gameObject};
                 bfindPlayer = true;
             }
             else

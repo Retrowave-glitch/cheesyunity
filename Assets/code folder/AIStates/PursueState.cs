@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-public class ChaseState : AIState
+public class PursueState : AIState
 {
     public AttackState attackState;
     public bool isInAttackRange;
@@ -14,24 +14,21 @@ public class ChaseState : AIState
         }
         else
         {
-            ChasePlayer();
+            PursuePlayer();
         }
         return this;
     }
-    void ChasePlayer()
+    void PursuePlayer()
     {
         float speed = AIStateManagerpointer.speed;
 
         //update current target
         AIStateManagerpointer.currentTarget = AIStateManagerpointer.targets.OrderBy
             (target => Vector2.Distance(target.transform.position, AIStateManagerpointer.transform.position)).FirstOrDefault();
-
         GameObject currentTarget = AIStateManagerpointer.currentTarget;
-        //float distance = Vector2.Distance(transform.position, currentTarget.position);
-        Vector2 direction = currentTarget.transform.position - transform.position;
+        Vector2 TargetPosition;
+        TargetPosition = (Vector2)currentTarget.transform.position + currentTarget.GetComponent<PlayerMovement>().getMovement();
 
-        //Chase Behavior
-        AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);
-        //
+        AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, TargetPosition, speed * Time.deltaTime);
     }
 }

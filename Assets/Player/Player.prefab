@@ -43,9 +43,11 @@ GameObject:
   - component: {fileID: 8419578296140474359}
   - component: {fileID: 8419578296140474357}
   - component: {fileID: 8419578296140474363}
+  - component: {fileID: 5002653097246416687}
   - component: {fileID: 8419578296140474362}
   - component: {fileID: 8419578296140474360}
   - component: {fileID: 2287142604201144229}
+  - component: {fileID: 5453183483159763536}
   - component: {fileID: 8419578295339307940}
   m_Layer: 6
   m_Name: Player
@@ -68,7 +70,7 @@ Transform:
   m_Children:
   - {fileID: 6107807025002923415}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8419578296140474359
 SpriteRenderer:
@@ -169,6 +171,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &5002653097246416687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8419578296140474358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb86272a57e0ce43b4ca4b8c006e4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iHealth: 100
+  iMaxHealth: 100
+  fMoveSpeed: 5
+  iStamina: 100
 --- !u!114 &8419578296140474362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac10b94aecc764aa141c61ebcb8700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  playerStatus: {fileID: 5002653097246416687}
   rb: {fileID: 8419578296140474357}
 --- !u!114 &8419578296140474360
 MonoBehaviour:
@@ -208,6 +226,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerName: 
+--- !u!1839735485 &5453183483159763536
+Tilemap:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8419578296140474358}
+  m_Enabled: 1
+  m_Tiles: {}
+  m_AnimatedTiles: {}
+  m_TileAssetArray: []
+  m_TileSpriteArray: []
+  m_TileMatrixArray: []
+  m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
+  m_AnimationFrameRate: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Origin: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0, y: 0, z: 1}
+  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileOrientation: 0
+  m_TileOrientationMatrix:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
 --- !u!114 &8419578295339307940
 MonoBehaviour:
   m_ObjectHideFlags: 0

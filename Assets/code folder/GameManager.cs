@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int port;
     void Awake()
     {
+        Application.targetFrameRate = 60; // make fps 60 fixed
         CheckInstance();
         DontDestroyOnLoad(gameObject);
     }

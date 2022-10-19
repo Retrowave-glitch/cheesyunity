@@ -43,13 +43,10 @@ public class PlayerNetwork : NetworkBehaviour
     {
 
         _netName.OnValueChanged += OnChangePlayerName;
-        //PlayerName = _netName.Value;
         PlayerName = _netName.Value.ToString();
     }
-
     private void OnChangePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
     {
-        // PlayerName = _netName.Value;
         PlayerName = _netName.Value.ToString();
     }
 

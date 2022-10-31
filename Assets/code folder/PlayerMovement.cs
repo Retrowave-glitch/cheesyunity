@@ -1,6 +1,7 @@
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
+    public float health = 100f;
     public Rigidbody2D rb;
     private Vector2 movement;
     private void Update()

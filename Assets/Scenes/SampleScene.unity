@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 293097608}
   - component: {fileID: 293097610}
   - component: {fileID: 293097609}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5445,7 +5445,7 @@ GameObject:
   - component: {fileID: 1590597791}
   - component: {fileID: 1590597790}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Map1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

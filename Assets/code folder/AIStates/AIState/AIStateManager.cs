@@ -11,6 +11,7 @@ public class AIStateManager : MonoBehaviour
     public Transform Enemy;
     public IdleState idleState;
     public AIType AItype = AIType.Seek;
+    public Vector2 MoveToLocation;
 
     public List<GameObject> targets = null;
     public Collider2D[] obstacles = null;

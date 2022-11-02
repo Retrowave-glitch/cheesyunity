@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4420751457135664163}
   - component: {fileID: 4420751457135664164}
   - component: {fileID: 437094620}
+  - component: {fileID: -7130773375248668648}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: Cheese
@@ -128,3 +129,16 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-7130773375248668648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420751457135664165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dee6d66b8ddfe43a79f075c2a00005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinCounter: {fileID: 0}

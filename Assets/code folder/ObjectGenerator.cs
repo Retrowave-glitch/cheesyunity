@@ -31,6 +31,7 @@ public class ObjectGenerator : NetworkBehaviour
         GameObject Cat = Instantiate(CatPrefab,
                                            _Pos,
                                             Quaternion.identity);
+        var Aistatemanagerobj = Cat.GetComponent<AIStateManager>();
         var networkObj = Cat.GetComponent<NetworkObject>();
         networkObj.Spawn(true);
     }

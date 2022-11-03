@@ -30,7 +30,7 @@ public class PlayerNetwork : NetworkBehaviour
             if (gos.Length > 0)
             {
                 GameObject objectgenerator = GameObject.FindGameObjectWithTag("ObjectGenerator");
-                objectgenerator.GetComponent<ObjectGenerator>().SpawnCheeseRandomPos();
+               // objectgenerator.GetComponent<ObjectGenerator>().SpawnCheeseRandomPos();
                 objectgenerator.GetComponent<ObjectGenerator>().SpawnCatRandomPos();
             }
         }

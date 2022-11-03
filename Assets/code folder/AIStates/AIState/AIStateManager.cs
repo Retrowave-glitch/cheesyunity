@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class AIStateManager : MonoBehaviour
 {
@@ -11,11 +12,17 @@ public class AIStateManager : MonoBehaviour
     public Transform Enemy;
     public IdleState idleState;
     public AIType AItype = AIType.Seek;
-    public Vector2 MoveToLocation;
+    public Vector3 MoveToLocation;
 
     public List<GameObject> targets = null;
     public Collider2D[] obstacles = null;
     public GameObject currentTarget;
+
+    public List<PathNode> openList;
+    public List<PathNode> closedList;
+    public List<Vector3> vectorPath;
+
+    public int currentPathIndex = 0;
     public int GetTargetsCount() => targets == null ? 0 : targets.Count;
 
     [SerializeField]
@@ -24,8 +31,10 @@ public class AIStateManager : MonoBehaviour
 
     private void Awake()
     {
+
         SwitchToTheNextState(idleState); //default to idle
         currentState.AIStateManagerpointer = this;
+        
     }
     private void Update()
     {

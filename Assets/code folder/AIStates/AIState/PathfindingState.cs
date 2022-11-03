@@ -10,18 +10,17 @@ public class PathfindingState : AIState
     public IdleState idleState;
     private Tilemap ground;
     private Tilemap obstacle;
-    private Vector2 nextLocation;
-
-    private List<PathNode> openList;
-    private List<PathNode> closedList;
-
-    private bool foundPath=false;
+    private bool debug;
     public override AIState RunCurrentState()
     {
-        if (!foundPath)
+        //get Tilemap data from InGameManager
+        ground = InGameManager.Instance.ground;
+        obstacle = InGameManager.Instance.obstacle;
+
+        if (AIStateManagerpointer.vectorPath.Count==0)
         {
             //Find startLocation as cell
-            Vector3Int startCellPosition = ground.LocalToCell(transform.position);
+            Vector3Int startCellPosition = ground.LocalToCell(AIStateManagerpointer.Enemy.position);
             PathNode startNode = new PathNode(startCellPosition.x, startCellPosition.y);
 
             //Find endLocation as cell
@@ -29,33 +28,63 @@ public class PathfindingState : AIState
             PathNode endNode = new PathNode(endCellPosition.x, endCellPosition.y);
 
             List<PathNode> path = findingPath(startNode,endNode);
-            foundPath = true;
+            if(path==null)
+            {
+                if(debug)Debug.Log("pathcount 0");
+                return idleState;
+            }
+            else
+            {
+                foreach(PathNode pathnode in path)
+                {
+                    if (debug) Debug.Log("count");
+                    AIStateManagerpointer.vectorPath.Add(ground.CellToLocal(pathnode.GetCellLocation()));
+                }
+            }
         }
         else
         {
-            return idleState;
+            if (debug) Debug.Log("found path");
+            if (moving()) {
+                return this;
+            }
+            else
+            {
+                return idleState;
+            }   
         }
         return this;
     }
     private List<PathNode> findingPath(PathNode startNode,PathNode endNode)
     {
-        openList = new List<PathNode> { startNode };
-        closedList = new List<PathNode>();
-
         startNode.gCost = 0;
         startNode.hCost = CalculateDistanceCost(startNode, endNode);
         startNode.CalculateFCost();
 
-        while (openList.Count > 0)
+        AIStateManagerpointer.openList = new List<PathNode> { startNode };
+        AIStateManagerpointer.closedList = new List<PathNode>();
+        while (AIStateManagerpointer.openList.Count > 0)
         {
-            PathNode currentNode = GetLowestFCostNode(openList);
+
+            PathNode currentNode = GetLowestFCostNode(AIStateManagerpointer.openList);
+            if (debug) Debug.Log(currentNode.ToString());
             if(currentNode.isEqual(endNode))
             {
                 //Reached final Node
                 return CalculatePath(endNode);
             }
-            openList.Remove(currentNode);
-            closedList.Add(currentNode);
+
+
+            for(int i =0; i< AIStateManagerpointer.openList.Count; i++)
+            {
+                if (AIStateManagerpointer.openList[i].GetCellLocation() == currentNode.GetCellLocation())
+                {
+                    AIStateManagerpointer.openList.RemoveAt(i);
+                    break;
+                }
+            }
+
+            AIStateManagerpointer.closedList.Add(currentNode);
 
             foreach(PathNode neighbournode in GetNeighbourList(currentNode))
             {
@@ -66,11 +95,14 @@ public class PathfindingState : AIState
                     neighbournode.gCost = tentativeGCost;
                     neighbournode.hCost = CalculateDistanceCost(neighbournode, endNode);
                     neighbournode.CalculateFCost();
-
-                    if (!isPathNodeInList(neighbournode, openList))
+                    /*
+                    if (!isPathNodeInList(neighbournode, AIStateManagerpointer.openList))
                     {
-                        openList.Add(neighbournode);
+                        Debug.Log("add");
+                        AIStateManagerpointer.openList.Add(neighbournode);
                     }
+                    */
+                    AIStateManagerpointer.openList.Add(neighbournode);
                 }
             }
         }
@@ -102,11 +134,11 @@ public class PathfindingState : AIState
             {
                 PathNode neighNode = new PathNode(neighLocation.x, neighLocation.y);
 
-                if(!isPathNodeInList(neighNode,closedList)) neighbourList.Add(new PathNode(neighLocation.x, neighLocation.y));
+                if(!isPathNodeInList(neighNode, AIStateManagerpointer.closedList)) neighbourList.Add(neighNode);
             }
             else
             {
-                closedList.Add(new PathNode(neighLocation.x, neighLocation.y));
+                AIStateManagerpointer.closedList.Add(new PathNode(neighLocation.x, neighLocation.y));
             }
         }
         return neighbourList;
@@ -121,6 +153,7 @@ public class PathfindingState : AIState
             path.Add(currentNode.cameFromNode);
             currentNode = currentNode.cameFromNode;
         }
+        if (debug) Debug.Log("pathnull");
         return null;
     }
     private int CalculateDistanceCost(PathNode a, PathNode b)//Finding H cost
@@ -142,9 +175,29 @@ public class PathfindingState : AIState
         }
         return lowestFCostNode;
     }
-    void moving()
+    bool moving()
     {
-        float speed = AIStateManagerpointer.speed;
-        AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, nextLocation, speed * Time.deltaTime);
+        if (AIStateManagerpointer.vectorPath.Count!= 0)
+        {
+            if (debug) Debug.Log("vectorpath:Count: "+AIStateManagerpointer.vectorPath.Count);
+            if (debug) Debug.Log("CurrentPath:Count: "+AIStateManagerpointer.currentPathIndex);
+            Vector3 targetPosition = AIStateManagerpointer.vectorPath[AIStateManagerpointer.currentPathIndex];
+            if(Vector3.Distance(AIStateManagerpointer.Enemy.position,targetPosition)>(ground.cellSize.x/2)) //far to next cell location
+            {
+                if (debug) Debug.Log("moving");
+                float speed = AIStateManagerpointer.speed;
+                AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            }
+            else //near to next cell location
+            {
+                AIStateManagerpointer.currentPathIndex++;
+                if (AIStateManagerpointer.currentPathIndex >= AIStateManagerpointer.vectorPath.Count)
+                {
+                    //Arrived
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

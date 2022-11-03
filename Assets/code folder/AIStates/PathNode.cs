@@ -17,6 +17,15 @@ public class PathNode
         this.x = x;
         this.y = y;
     }
+    public PathNode(Vector2Int location)
+    {
+        this.x = location.x;
+        this.y = location.y;
+    }
+    public Vector3Int GetCellLocation()
+    {
+        return new Vector3Int(x, y, 0);
+    }
     public void CalculateFCost()
     {
         fCost = gCost + hCost;

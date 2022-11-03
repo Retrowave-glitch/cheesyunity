@@ -6,6 +6,11 @@ public class Coin : MonoBehaviour
 {
     public CoinCounter coinCounter;
 
+    private void Awake()
+    {
+        GameObject coinCounterObj = GameObject.FindWithTag("CoinCounter");
+        coinCounter = coinCounterObj.GetComponent<CoinCounter>();
+    }
     // Update is called once per frame
     void Update()
     {

@@ -5851,7 +5851,7 @@ GameObject:
   - component: {fileID: 1588423555}
   m_Layer: 0
   m_Name: CoinCounter
-  m_TagString: Untagged
+  m_TagString: CoinCounter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5869,7 +5869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfCoins: 0
-  numberOfCoinsText: {fileID: 0}
+  numberOfCoinsText: {fileID: 957613239}
 --- !u!4 &1588423556
 Transform:
   m_ObjectHideFlags: 0

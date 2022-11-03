@@ -13,7 +13,6 @@ public class IdleState : AIState
         AIState nextState;
         if (canSeeThePlayer())
         {
-            //return pathfindingState;
             switch (AIStateManagerpointer.AItype)
             {
                 case AIStateManager.AIType.Seek:
@@ -24,6 +23,9 @@ public class IdleState : AIState
                     break;
                 case AIStateManager.AIType.Flee:
                     nextState = fleeState;
+                    break;
+                case AIStateManager.AIType.Pathfinding:
+                    nextState = pathfindingState;
                     break;
                 default:
                     nextState = pathfindingState;

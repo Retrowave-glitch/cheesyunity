@@ -57,6 +57,7 @@ public class AIStateManager : MonoBehaviour
     {
         Seek,
         Pursue,
-        Flee
+        Flee,
+        Pathfinding
     }
 }

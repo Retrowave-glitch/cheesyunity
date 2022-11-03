@@ -6,11 +6,10 @@ using UnityEngine.UI;
 public class CoinCounter : MonoBehaviour
 {
 
-    public int numberOfCoins=0;
+    public int numberOfCoins;
     public TextMeshProUGUI numberOfCoinsText;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         numberOfCoins = 0;
         numberOfCoinsText.text = numberOfCoins.ToString();

@@ -359,11 +359,13 @@ MonoBehaviour:
   speed: 2
   Enemy: {fileID: 3491973595308024668}
   idleState: {fileID: 5013449502802237554}
-  AItype: 2
-  MoveToLocation: {x: 0, y: 0}
+  AItype: 3
+  MoveToLocation: {x: 0, y: 0, z: 0}
   targets: []
   obstacles: []
   currentTarget: {fileID: 0}
+  vectorPath: []
+  currentPathIndex: 0
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 256

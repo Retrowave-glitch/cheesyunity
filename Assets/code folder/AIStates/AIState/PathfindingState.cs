@@ -5,12 +5,12 @@ using UnityEngine.Tilemaps;
 public class PathfindingState : AIState
 {
     private const int MOVE_STRAIGHT_COST = 10;
-    private const int MOVE_DIAGONAL_COST = 14;
+    private const int MOVE_DIAGONAL_COST = 15;
 
     public IdleState idleState;
     private Tilemap ground;
     private Tilemap obstacle;
-    private bool debug;
+    private bool debug=false;
     public override AIState RunCurrentState()
     {
         //get Tilemap data from InGameManager
@@ -23,12 +23,16 @@ public class PathfindingState : AIState
             Vector3Int startCellPosition = ground.LocalToCell(AIStateManagerpointer.Enemy.position);
             PathNode startNode = new PathNode(startCellPosition.x, startCellPosition.y);
 
+            if (debug) Debug.Log(startCellPosition.ToString());
+
             //Find endLocation as cell
             Vector3Int endCellPosition = ground.LocalToCell(AIStateManagerpointer.MoveToLocation);
             PathNode endNode = new PathNode(endCellPosition.x, endCellPosition.y);
 
+            if (debug) Debug.Log(endCellPosition.ToString());
+
             List<PathNode> path = findingPath(startNode,endNode);
-            if(path==null)
+            if(path==null||path.Count==0)
             {
                 if(debug)Debug.Log("pathcount 0");
                 return idleState;
@@ -38,8 +42,9 @@ public class PathfindingState : AIState
                 foreach(PathNode pathnode in path)
                 {
                     if (debug) Debug.Log("count");
-                    AIStateManagerpointer.vectorPath.Add(ground.CellToLocal(pathnode.GetCellLocation()));
+                    AIStateManagerpointer.vectorPath.Add(ground.GetCellCenterWorld(pathnode.GetCellLocation()));
                 }
+                path.Clear();
             }
         }
         else
@@ -50,6 +55,7 @@ public class PathfindingState : AIState
             }
             else
             {
+                if (debug) Debug.Log("return idleState");
                 return idleState;
             }   
         }
@@ -67,11 +73,13 @@ public class PathfindingState : AIState
         {
 
             PathNode currentNode = GetLowestFCostNode(AIStateManagerpointer.openList);
+
             if (debug) Debug.Log(currentNode.ToString());
+
             if(currentNode.isEqual(endNode))
             {
                 //Reached final Node
-                return CalculatePath(endNode);
+                return CalculatePath(currentNode);
             }
 
 
@@ -88,6 +96,7 @@ public class PathfindingState : AIState
 
             foreach(PathNode neighbournode in GetNeighbourList(currentNode))
             {
+                if (debug) Debug.Log("search neighbour");
                 int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbournode);
                 if(tentativeGCost < neighbournode.gCost)
                 {
@@ -95,14 +104,11 @@ public class PathfindingState : AIState
                     neighbournode.gCost = tentativeGCost;
                     neighbournode.hCost = CalculateDistanceCost(neighbournode, endNode);
                     neighbournode.CalculateFCost();
-                    /*
                     if (!isPathNodeInList(neighbournode, AIStateManagerpointer.openList))
                     {
-                        Debug.Log("add");
+                        if(debug)Debug.Log("add");
                         AIStateManagerpointer.openList.Add(neighbournode);
                     }
-                    */
-                    AIStateManagerpointer.openList.Add(neighbournode);
                 }
             }
         }
@@ -133,11 +139,12 @@ public class PathfindingState : AIState
             if (ground.HasTile(neighLocation)&&!obstacle.HasTile(neighLocation)) // if the position has ground and no obstacles
             {
                 PathNode neighNode = new PathNode(neighLocation.x, neighLocation.y);
-
+                neighNode.gCost = int.MaxValue;
                 if(!isPathNodeInList(neighNode, AIStateManagerpointer.closedList)) neighbourList.Add(neighNode);
             }
             else
             {
+                if (debug) Debug.Log("Obstacle hit");
                 AIStateManagerpointer.closedList.Add(new PathNode(neighLocation.x, neighLocation.y));
             }
         }
@@ -152,9 +159,11 @@ public class PathfindingState : AIState
         {
             path.Add(currentNode.cameFromNode);
             currentNode = currentNode.cameFromNode;
+            if (debug) Debug.Log("add cameFromNodes");
         }
-        if (debug) Debug.Log("pathnull");
-        return null;
+        path.Reverse();
+        if (debug) Debug.Log("calculate path");
+        return path;
     }
     private int CalculateDistanceCost(PathNode a, PathNode b)//Finding H cost
     {
@@ -182,7 +191,8 @@ public class PathfindingState : AIState
             if (debug) Debug.Log("vectorpath:Count: "+AIStateManagerpointer.vectorPath.Count);
             if (debug) Debug.Log("CurrentPath:Count: "+AIStateManagerpointer.currentPathIndex);
             Vector3 targetPosition = AIStateManagerpointer.vectorPath[AIStateManagerpointer.currentPathIndex];
-            if(Vector3.Distance(AIStateManagerpointer.Enemy.position,targetPosition)>(ground.cellSize.x/2)) //far to next cell location
+            if (debug) Debug.Log(targetPosition);
+            if(Vector3.Distance(AIStateManagerpointer.Enemy.position,targetPosition)>(ground.cellSize.x/10)) //far to next cell location
             {
                 if (debug) Debug.Log("moving");
                 float speed = AIStateManagerpointer.speed;
@@ -194,6 +204,10 @@ public class PathfindingState : AIState
                 if (AIStateManagerpointer.currentPathIndex >= AIStateManagerpointer.vectorPath.Count)
                 {
                     //Arrived
+                    AIStateManagerpointer.vectorPath.Clear();
+                    AIStateManagerpointer.closedList.Clear();
+                    AIStateManagerpointer.openList.Clear();
+                    AIStateManagerpointer.currentPathIndex = 0;
                     return false;
                 }
             }

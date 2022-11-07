@@ -15,6 +15,6 @@ public class Coin : MonoBehaviour
     void Update()
     {
         coinCounter.AddCoin();
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 public class AIStateManager : MonoBehaviour
 {
-    public float detectingRange = 20.0f;
+    public float detectingRange = 100000.0f;
     public float lostRange = 5.0f;
     
     public float lostTime = 2.0f;

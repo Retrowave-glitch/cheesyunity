@@ -5,6 +5,7 @@ using System.Linq;
 public class ChaseState : AIState
 {
     public AttackState attackState;
+    public IdleState idlestate;
     public bool isInAttackRange;
     public override AIState RunCurrentState()
     {
@@ -14,9 +15,31 @@ public class ChaseState : AIState
         }
         else
         {
-            ChasePlayer();
+            //Enemy lost player function
+            if (!AIStateManagerpointer.canSeeThePlayer()) {
+                AIStateManagerpointer.lostsecond += Time.deltaTime;
+                if (AIStateManagerpointer.lostsecond > AIStateManagerpointer.lostTime)
+                {
+                    return idlestate;
+                }
+                else
+                {
+                    MovePlayerLastLocation();
+                }
+            }
+            else
+            {
+                ChasePlayer();
+                AIStateManagerpointer.lostsecond = 0.0f;
+            }
         }
+
         return this;
+    }
+    void MovePlayerLastLocation()
+    {
+        float speed = AIStateManagerpointer.speed;
+        AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, AIStateManagerpointer.MoveToLocation, speed * Time.deltaTime);
     }
     void ChasePlayer()
     {
@@ -27,8 +50,6 @@ public class ChaseState : AIState
             (target => Vector2.Distance(target.transform.position, AIStateManagerpointer.transform.position)).FirstOrDefault();
 
         GameObject currentTarget = AIStateManagerpointer.currentTarget;
-        //float distance = Vector2.Distance(transform.position, currentTarget.position);
-        Vector2 direction = currentTarget.transform.position - transform.position;
 
         //Chase Behavior
         AIStateManagerpointer.Enemy.position = Vector2.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);

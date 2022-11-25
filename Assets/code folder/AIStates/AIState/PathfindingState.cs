@@ -4,20 +4,26 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 public class PathfindingState : AIState
 {
+    // Used same as roaming state, move to given position 
+    // and change state to chase when see Player
+
     private const int MOVE_STRAIGHT_COST = 10;
-    private const int MOVE_DIAGONAL_COST = 15;
+    private const int MOVE_DIAGONAL_COST = 19;// DEFAULT COST 15
 
     public IdleState idleState;
+    public ChaseState chaseState;
+
     private Tilemap ground;
     private Tilemap obstacle;
+
     private bool debug=false;
     public override AIState RunCurrentState()
     {
         //get Tilemap data from InGameManager
         ground = InGameManager.Instance.ground;
         obstacle = InGameManager.Instance.obstacle;
-
-        if (AIStateManagerpointer.vectorPath.Count==0)
+        if (debug) Debug.Log("--PathfindingState--");
+        if (AIStateManagerpointer.vectorPath.Count==0) //if when Enemy didn't find path yet
         {
             //Find startLocation as cell
             Vector3Int startCellPosition = ground.LocalToCell(AIStateManagerpointer.Enemy.position);
@@ -32,7 +38,7 @@ public class PathfindingState : AIState
             if (debug) Debug.Log(endCellPosition.ToString());
 
             List<PathNode> path = findingPath(startNode,endNode);
-            if(path==null||path.Count==0)
+            if(path==null||path.Count==0) // no path found
             {
                 if(debug)Debug.Log("pathcount 0");
                 return idleState;
@@ -51,7 +57,14 @@ public class PathfindingState : AIState
         {
             if (debug) Debug.Log("found path");
             if (moving()) {
-                return this;
+                if (AIStateManagerpointer.canSeeThePlayer()) {
+                    if (debug) Debug.Log("Chase Player");
+                    AIStateManagerpointer.vectorPath.Clear();
+                    AIStateManagerpointer.closedList.Clear();
+                    AIStateManagerpointer.openList.Clear();
+                    AIStateManagerpointer.currentPathIndex = 0;
+                    return chaseState;
+                }
             }
             else
             {
@@ -188,11 +201,18 @@ public class PathfindingState : AIState
     {
         if (AIStateManagerpointer.vectorPath.Count!= 0)
         {
+            for(int i=1; i< AIStateManagerpointer.vectorPath.Count-1; i++)
+            {
+                Debug.DrawLine(AIStateManagerpointer.vectorPath[i], AIStateManagerpointer.vectorPath[i + 1],Color.red);
+            }
+
             if (debug) Debug.Log("vectorpath:Count: "+AIStateManagerpointer.vectorPath.Count);
             if (debug) Debug.Log("CurrentPath:Count: "+AIStateManagerpointer.currentPathIndex);
             Vector3 targetPosition = AIStateManagerpointer.vectorPath[AIStateManagerpointer.currentPathIndex];
-            if (debug) Debug.Log(targetPosition);
-            if(Vector3.Distance(AIStateManagerpointer.Enemy.position,targetPosition)>(ground.cellSize.x/10)) //far to next cell location
+
+            Debug.DrawLine(AIStateManagerpointer.Enemy.position, targetPosition);
+
+            if (Vector3.Distance(AIStateManagerpointer.Enemy.position,targetPosition)>(ground.cellSize.x/10)) //far to next cell location
             {
                 if (debug) Debug.Log("moving");
                 float speed = AIStateManagerpointer.speed;

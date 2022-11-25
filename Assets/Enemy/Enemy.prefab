@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AIStateManagerpointer: {fileID: 5982263323723437805}
   idleState: {fileID: 5013449502802237554}
+  chaseState: {fileID: 4312483783673995811}
 --- !u!1 &3491973595308024666
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -303,9 +304,9 @@ Transform:
   - {fileID: 6676588393263444997}
   - {fileID: 5516098966964305136}
   - {fileID: 3420212012436812014}
-  - {fileID: 613666361090668087}
   - {fileID: 812461168045747273}
   - {fileID: 8471789436142464263}
+  - {fileID: 613666361090668087}
   m_Father: {fileID: 3491973595308024668}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -353,9 +354,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00665f9dd762abe48a02d7cd34a43a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectingRange: 4
+  detectingRange: 8
   lostRange: 5
   lostTime: 2
+  lostsecond: 0
   speed: 2
   Enemy: {fileID: 3491973595308024668}
   idleState: {fileID: 5013449502802237554}
@@ -558,5 +560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AIStateManagerpointer: {fileID: 0}
-  attackState: {fileID: 0}
+  attackState: {fileID: 8874431955358223712}
+  idlestate: {fileID: 5013449502802237554}
   isInAttackRange: 0

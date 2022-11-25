@@ -52,11 +52,13 @@ public class IdleState : AIState
         {
                 Vector2 direction = (playerCollider.transform.position - transform.position).normalized;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, targetDetectionRange, obstaclesLayerMask);
-                //check if there are obstacles
-                if (hit.collider == null)
+            //check if there are obstacles
+            colliders = new List<GameObject>() { playerCollider.gameObject };
+            bfindPlayer = true;
+            if (hit.collider == null)
                 {
-                    colliders = new List<GameObject>() { playerCollider.gameObject };
-                    bfindPlayer = true;
+                   // colliders = new List<GameObject>() { playerCollider.gameObject };
+                    //bfindPlayer = true;
                 }
                 else
                 {
